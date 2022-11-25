@@ -20,9 +20,7 @@ public class createST {
     }
 
     public int getSum(int i, int si, int sj, int qi, int qj) {
-        System.out.println(i + " " + si + " " + sj + " " + qi + " " + qj);
-
-        if (qi <= si || qj >= sj) // no overlap
+        if (qj <= si || qi >= sj ) // no overlap
             return 0;
         else if (si >= qi && sj <= qj) // complete overlap
             return tree[i];
@@ -51,6 +49,6 @@ public class createST {
         // System.out.print(i + " ");
         // System.out.println();
 
-        System.out.println(q.getSum(0, 0, val.length - 1, 1, 4));
+        System.out.println(q.getSum(0, 0, val.length - 1, 2, 5));
     }
 }
