@@ -4,6 +4,7 @@ public class createST {
 
     static int[] tree;
 
+    //O(n)
     public int buildST(int[] val, int idx, int start, int end) {
         // base case
         if (start == end) {
@@ -13,14 +14,17 @@ public class createST {
 
         // RR
         int mid = (start + end) / 2;
+        
         buildST(val, idx * 2 + 1, start, mid);
         buildST(val, idx * 2 + 2, mid + 1, end);
+
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
         return tree[idx];
     }
 
+    //O(logn)
     public int getSum(int i, int si, int sj, int qi, int qj) {
-        if (qj <= si || qi >= sj ) // no overlap
+        if (qj <= si || qi >= sj) // no overlap
             return 0;
         else if (si >= qi && sj <= qj) // complete overlap
             return tree[i];
@@ -29,6 +33,18 @@ public class createST {
             int l = getSum(2 * i + 1, si, mid, qi, qj);
             int r = getSum(2 * i + 2, mid + 1, sj, qi, qj);
             return l + r;
+        }
+    }
+
+    // O(logn)
+    public void setUpdate(int i, int si, int sj, int id, int num) {
+        if (id < si || id > sj)
+            return;
+        tree[i] += num;
+        if (si != sj) {
+            int mid = (si + sj) / 2;
+            setUpdate(id * 2 + 1, si, mid, id, num);
+            setUpdate(id * 2 + 2, mid + 1, sj, id, num);
         }
     }
 
@@ -50,5 +66,9 @@ public class createST {
         // System.out.println();
 
         System.out.println(q.getSum(0, 0, val.length - 1, 2, 5));
+        int newVal = 4;
+        q.setUpdate(0, 0, val.length - 1, 2, val[2] - newVal);
+        System.out.println(q.getSum(0, 0, val.length - 1, 2, 5));
+
     }
 }
